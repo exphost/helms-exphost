@@ -1,0 +1,92 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dex
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://charts.dexidp.io'
+    targetRevision: 0.5.0
+    chart: dex
+    helm:
+      values: |
+        config:
+          connectors:
+            - type: ldap
+              id: ldap
+              name: LDAP
+              config:
+                host: openldap.openldap.svc.cluster.local:389
+                insecureNoSSL: true
+                bindDN: uid=dex,ou=sa,dc=home,dc=exphost,dc=fabrykowski,dc=pl
+                bindPW: dex123
+                usernamePrompt: SSO Username
+                userSearch:
+                  baseDN: ou=users,dc=home,dc=exphost,dc=fabrykowski,dc=pl
+                  filter: "(objectClass=inetOrgPerson)"
+                  username: cn
+                  idAttr: cn
+                  emailAttr: mail
+                  nameAttr: cn
+                groupSearch:
+                  baseDN: ou=groups,dc=home,dc=exphost,dc=fabrykowski,dc=pl
+                  filter: "(objectClass=groupOfNames)"
+                  userMatchers:
+                    - userAttr: distinguishedName
+                      groupAttr: member
+                  nameAttr: cn
+          storage:
+            type: sqlite3
+            #type: kubernetes
+            config:
+              file: /var/dex/dex.db
+              #inCluster: true
+              #issuer: https://dex.dex.svc.cluster.local:5556/dex
+          issuer: https://auth.home.exphost.pl/dex
+          staticClients:
+          - id: kubernetes
+            redirectURIs:
+            - 'https://auth.home.exphost.pl/callback'
+            name: 'Kubernetes'
+            secret: GiQBxaKyVNsNkWshSzuNN8Xa6qnbZLYt
+          - id: example-app
+            redirectURIs:
+            - 'https://auth.home.exphost.pl/callback'
+            name: 'Example App'
+            secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+          - id: argo
+            redirectURIs:
+            - 'https://argocd.home.exphost.pl/auth/callback'
+            name: 'ArgoCD'
+            secret: nY4pHGFH0dXKARUWwsxh1Q==
+          - id: gitlab
+            redirectURIs:
+            - 'https://gitlab.home.exphost.pl/users/auth/openid_connect/callback'
+            - 'https://gitlab.home.exphost.pl/users/auth/exphost/callback'
+            name: 'GitLab'
+            secret: 7t7qSU17QwzP80s5NYqV4/JTKl8XYyQ+iyrMpslteXo=
+        ingress:
+          enabled: true
+          hosts:
+            - host: auth.home.exphost.pl
+              paths:
+                - path: /dex
+                  pathType: ImplementationSpecific
+          tls:
+            - hosts:
+                - auth.home.exphost.pl
+              secretName: dex-acme.tls
+          annotations:
+            cert-manager.io/cluster-issuer: acme-issuer
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dex
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true

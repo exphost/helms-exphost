@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dex-k8s-authenticator
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://mintel.github.io/helm-charts'
+    targetRevision: v1.2.0
+    chart: dex-k8s-authenticator
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          hosts:
+            - auth.home.exphost.pl
+          annotations:
+            cert-manager.io/cluster-issuer: acme-issuer
+          tls:
+            - hosts:
+                - auth.home.exphost.pl
+              secretName: dex-acme.tls
+        dexK8sAuthenticator:
+          clusters:
+            - name: home-cluster
+              short_description: "Dev cluster"
+              client_secret: GiQBxaKyVNsNkWshSzuNN8Xa6qnbZLYt
+              #issuer: http://dex.dex.svc.cluster.local:5556/dex
+              issuer: https://auth.home.exphost.pl/dex
+              k8s_master_uri: https://kubernetes.default.svc.cluster.local
+              client_id: kubernetes
+              redirect_uri: https://auth.home.exphost.pl/callback
+              scopes:
+                - openid
+                - groups
+                - profile
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dex
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true

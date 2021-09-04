@@ -1,0 +1,84 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://argoproj.github.io/argo-helm'
+    targetRevision: 3.10.0
+    chart: argo-cd
+    helm:
+      values: |
+        controller:
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+        server:
+          extraArgs:
+            - --insecure
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+          ingress:
+            enabled: true
+            hosts:
+              - argocd.{{ .Values.domain}}
+            tls:
+              - secretName: argocd-server-tls
+                hosts:
+                  - argocd.{{ .Values.domain}}
+            https: false
+            annotations:
+              cert-manager.io/cluster-issuer: acme-issuer
+          ingressGrpc:
+            enabled: false
+            hosts:
+              - argocd.{{ .Values.domain}}
+            tls:
+              - secretName: argocd-server-tls
+                hosts:
+                  - argocd.{{ .Values.domain}}
+            https: false
+          config:
+            url: https://argocd.{{ .Values.domain }}
+            oidc.config: |
+              name: dex
+              issuer: "https://auth.{{ .Values.domain }}/dex"
+              clientID: argo
+              clientSecret: nY4pHGFH0dXKARUWwsxh1Q==
+              requestedIDTokenClaims:
+                groups:
+                  essential: true
+              requestedScopes:
+                - openid
+                - profile
+                - email
+                - groups
+          rbacConfig:
+            policy.csv: |
+              g, argo-admins, role:admin
+
+              p, role:tenant-services, projects, get, services, allow
+              g, tenant-services, role:tenant-services
+
+        repoServer:
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true

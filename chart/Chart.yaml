@@ -1,0 +1,7 @@
+apiVersion: v2
+name: exphost
+description: A Helm chart for exphost k8s cluster
+
+type: application
+
+version: __VERSION__
