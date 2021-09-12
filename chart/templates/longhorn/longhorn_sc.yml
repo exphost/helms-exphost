@@ -1,0 +1,75 @@
+---
+apiVersion: storage.k8s.io/v1
+allowVolumeExpansion: true
+kind: StorageClass
+metadata:
+  name: "longhorn-replica1-retain"
+parameters:
+  numberOfReplicas: "1"
+  staleReplicaTimeout: "30"
+provisioner: driver.longhorn.io
+reclaimPolicy: "Retain"
+volumeBindingMode: Immediate
+---
+apiVersion: storage.k8s.io/v1
+allowVolumeExpansion: true
+kind: StorageClass
+metadata:
+  name: "longhorn-replica2-retain"
+parameters:
+  numberOfReplicas: "2"
+  staleReplicaTimeout: "30"
+provisioner: driver.longhorn.io
+reclaimPolicy: "Retain"
+volumeBindingMode: Immediate
+
+---
+apiVersion: storage.k8s.io/v1
+allowVolumeExpansion: true
+kind: StorageClass
+metadata:
+  name: "longhorn-replica3-retain"
+parameters:
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "30"
+provisioner: driver.longhorn.io
+reclaimPolicy: "Retain"
+volumeBindingMode: Immediate
+
+---
+apiVersion: storage.k8s.io/v1
+allowVolumeExpansion: true
+kind: StorageClass
+metadata:
+  name: "longhorn-replica1-delete"
+parameters:
+  numberOfReplicas: "1"
+  staleReplicaTimeout: "30"
+provisioner: driver.longhorn.io
+reclaimPolicy: "Delete"
+volumeBindingMode: Immediate
+---
+apiVersion: storage.k8s.io/v1
+allowVolumeExpansion: true
+kind: StorageClass
+metadata:
+  name: "longhorn-replica2-delete"
+parameters:
+  numberOfReplicas: "2"
+  staleReplicaTimeout: "30"
+provisioner: driver.longhorn.io
+reclaimPolicy: "Delete"
+volumeBindingMode: Immediate
+
+---
+apiVersion: storage.k8s.io/v1
+allowVolumeExpansion: true
+kind: StorageClass
+metadata:
+  name: "longhorn-replica3-delete"
+parameters:
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "30"
+provisioner: driver.longhorn.io
+reclaimPolicy: "Delete"
+volumeBindingMode: Immediate

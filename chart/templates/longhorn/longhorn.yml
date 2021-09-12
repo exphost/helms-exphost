@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://charts.longhorn.io'
+    chart: longhorn
+    targetRevision: 1.1.2
+    helm:
+      values: |
+        persistence:
+          defaultClassReplicaCount: 1
+        ingress:
+          enabled: true
+          host: "longhorn.home.exphost.pl"
+          tls: true
+          tlsSecret: longhorn-acme.tls
+          annotations:
+            cert-manager.io/cluster-issuer: acme-issuer
+        defaultSettings:
+          defaultDataLocality: "best-effort"
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true
