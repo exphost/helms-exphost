@@ -87,3 +87,6 @@ affinity: {}
 
 
 domain: dev.exphot.pl
+persistent:
+  nfs:
+    size: 15Gi
