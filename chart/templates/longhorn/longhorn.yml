@@ -17,7 +17,7 @@ spec:
           defaultClassReplicaCount: 1
         ingress:
           enabled: true
-          host: "longhorn.home.exphost.pl"
+          host: "longhorn.{{ .Values.domain}}"
           tls: true
           tlsSecret: longhorn-acme.tls
           annotations:
