@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana-datasources
+  namespace: grafana
+type: Opaque
+stringData:
+  prometheus_datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+      - name: prometheus
+        type: prometheus
+        url: "http://prometheus-kube-prometheus-prometheus.prometheus-system.svc.cluster.local:9090"

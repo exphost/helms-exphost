@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    targetRevision: 6.1.3
+    chart: grafana
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          hostname: grafana.{{ .Values.domain }}
+          certManager: true
+          annotations:
+            cert-manager.io/cluster-issuer: acme-issuer
+          tls: true
+
+        replicaCount: 1
+        datasources:
+          secretName: grafana-datasources
+        dashboardsConfigMaps:
+          {{- range $path, $_ := .Files.Glob "files/grafana/dashboards/*" }}
+            - configMapName: grafana-dashboards
+              fileName: {{ $path | base}}
+          {{- end }}
+        #  - configMapName: grafana-dashboards-nodes
+        #    fileName: nodes.json
+        #  - configMapName: grafana-dashboards-general-view
+        #    fileName: general-view.json
+        #  - configMapName: grafana-dashboards-argocd
+        #    fileName: argocd.json
+        dashboardsProvider:
+          enabled: true
+        #ldap:
+        #  enabled: true
+        #  configMapName: ldap-config
+        #  allowSignUp: true
+        persistence:
+          enabled: false
+
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: grafana
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true
