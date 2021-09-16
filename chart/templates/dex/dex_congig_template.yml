@@ -1,0 +1,30 @@
+apiVersion: exphost.pl/v1
+kind: Template
+metadata:
+  name: dex-config
+  namespace: dex
+spec:
+  template: |
+    connectors:
+    {{ "{{" }} connectors {{ "}}" }}
+    storage:
+      type: sqlite3
+      #type: kubernetes
+      config:
+        file: /var/dex/dex.db
+        #inCluster: true
+    issuer: https://auth.{{ .Values.domain}}/dex
+    staticClients:
+    {{ "{{" }} clients {{ "}}" }}
+  destination_name: dex-config
+  destination_key: config.yaml
+  destination_type: Secret
+  values:
+    - name: connectors
+      source_name: dex-env-configs
+      source_type: Secret
+      source_key: connectors
+    - name: clients
+      source_name: dex-env-configs
+      source_type: Secret
+      source_key: staticClients

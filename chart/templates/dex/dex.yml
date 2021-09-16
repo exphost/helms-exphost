@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dex
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://charts.dexidp.io'
+    targetRevision: 0.5.0
+    chart: dex
+    helm:
+      values: |
+        configSecret:
+          create: false
+          name: dex-config
+        ingress:
+          enabled: true
+          hosts:
+            - host: auth.{{ .Values.domain }}
+              paths:
+                - path: /dex
+                  pathType: ImplementationSpecific
+          tls:
+            - hosts:
+                - auth.{{ .Values.domain }}
+              secretName: dex-acme.tls
+          annotations:
+            cert-manager.io/cluster-issuer: acme-issuer
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dex
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true
