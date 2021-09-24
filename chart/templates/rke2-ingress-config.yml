@@ -7,5 +7,9 @@ metadata:
 spec:
   valuesContent: |-
     controller:
+      publishService:
+        enabled: true
+        pathOverride: kube-system/rke2-ingress-nginx-controller 
       service:
         enabled: true
+        type: LoadBalancer
