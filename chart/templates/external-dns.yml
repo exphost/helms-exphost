@@ -19,8 +19,6 @@ spec:
         cloudflare:
           secretName: cloudflare-token
           proxied: {{ .Values.cloudflare.proxied }}
-        domainFilters:
-          - {{ .Values.domain }}
         metrics:
           enabled: true
           serviceMonitor:
