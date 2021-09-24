@@ -18,6 +18,7 @@ spec:
         provider: cloudflare
         cloudflare:
           secretName: cloudflare-token
+          proxied: {{ .Values.cloudflare.proxied }}
         domainFilters:
           - {{ .Values.domain }}
         metrics:

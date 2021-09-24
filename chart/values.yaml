@@ -96,3 +96,6 @@ metallb:
 #      addresses:
 #        - 192.168.8.100-192.168.8.150
 #      protocol: layer2
+
+cloudflare:
+  proxied: true
