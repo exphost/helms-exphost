@@ -21,10 +21,10 @@ spec:
   destination_type: Secret
   values:
     - name: connectors
-      source_name: dex-env-configs
+      source_name: dex-env-configs-connectors
       source_type: Secret
       source_key: connectors
     - name: clients
-      source_name: dex-env-configs
+      source_name: dex-env-configs-staticClients
       source_type: Secret
       source_key: staticClients

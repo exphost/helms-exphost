@@ -13,3 +13,5 @@ spec:
       service:
         enabled: true
         type: LoadBalancer
+    tcp:
+      8070: "exphost-configurator/exphost-configurator:8080"
