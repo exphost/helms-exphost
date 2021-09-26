@@ -25,6 +25,6 @@ spec:
       source_type: Secret
       source_key: connectors
     - name: clients
-      source_name: dex-env-configs-staticClients
+      source_name: dex-env-configs-staticclients
       source_type: Secret
-      source_key: staticClients
+      source_key: staticclients
