@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: exphost
+  namespace: argocd
+spec:
+  destinations:
+  - namespace: argocd
+    server: '*'
+  - namespace: cert-manager
+    server: '*'
+  - namespace: dex
+    server: '*'
+  - namespace: exphost-configurator
+    server: '*'
+  - namespace: external-dns
+    server: '*'
+  - namespace: grafana
+    server: '*'
+  - namespace: kube-system
+    server: '*'
+  - namespace: longhorn-system
+    server: '*'
+  - namespace: metallb-system
+    server: '*'
+  - namespace: nfs-system
+    server: '*'
+  - namespace: password-generator
+    server: '*'
+  - namespace: prometheus-system
+    server: '*'
+  - namespace: template-renderer
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: Namespace
+  - group: '*'
+    kind: CustomResourceDefinition
+  - group: '*'
+    kind: ClusterRole
+  - group: '*'
+    kind: ClusterRoleBinding
+  - group: '*'
+    kind: StorageClass
+  - group: '*'
+    kind: ValidatingWebhookConfiguration
+  - group: '*'
+    kind: MutatingWebhookConfiguration
+  - group: '*'
+    kind: PodSecurityPolicy
+  sourceRepos:
+  - '*'
