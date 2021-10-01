@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kube-api
+  namespace: kube-system
 spec:
   selector:
     component: kube-apiserver
@@ -14,6 +15,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: api
+  namespace: kube-system
   annotations:
     cert-manager.io/cluster-issuer: acme-issuer
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
