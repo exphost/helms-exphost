@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-api
+spec:
+  selector:
+    component: kube-apiserver
+  ports:
+    - protocol: TCP
+      port: 6443
+      targetPort: 6443
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api
+  annotations:
+    cert-manager.io/cluster-issuer: acme-issuer
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  rules:
+  - host: kube-api.{{ .Values.domain }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: kube-api
+            port:
+              number: 6443
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - kube-api.{{ .Values.domain }}
+    secretName: api-acme.tls
