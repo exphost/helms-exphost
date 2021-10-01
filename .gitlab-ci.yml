@@ -17,7 +17,8 @@ nodes:
     - chmod +x /usr/local/bin/kubectl
   script:
     - export VERSION=$(git describe --tags)
-    - kubectl get nodes
     - kubectl patch application -n argocd exphost --patch="{\"spec\":{\"source\":{\"targetRevision\":\"${VERSION}\"}}}" --type=merge
   environment:
     name: dev
+    kubernetes:
+      namespace: argocd
