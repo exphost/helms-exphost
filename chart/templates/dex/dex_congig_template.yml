@@ -3,6 +3,9 @@ kind: Template
 metadata:
   name: dex-config
   namespace: dex
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   template: |
     connectors:
