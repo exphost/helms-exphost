@@ -1,21 +1,8 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: kube-api
-  namespace: kube-system
-spec:
-  selector:
-    component: kube-apiserver
-  ports:
-    - protocol: TCP
-      port: 6443
-      targetPort: 6443
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: api
-  namespace: kube-system
+  namespace: default
   annotations:
     cert-manager.io/cluster-issuer: acme-issuer
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -26,9 +13,9 @@ spec:
       paths:
       - backend:
           service:
-            name: kube-api
+            name: kubernetes
             port:
-              number: 6443
+              number: 443
         pathType: ImplementationSpecific
   tls:
   - hosts:
