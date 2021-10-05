@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+    - kopf.zalando.org/KopfFinalizerMarker
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
