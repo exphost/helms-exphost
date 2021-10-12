@@ -1,0 +1,14 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argo-tenants-apps
+  namespace: argocd
+subjects:
+- kind: ServiceAccount
+  name: argo-ssh-generator
+  namespace: argocd
+roleRef:
+  kind: Role
+  name: argo-ssh-generator
+  apiGroup: rbac.authorization.k8s.io
