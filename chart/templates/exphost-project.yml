@@ -31,6 +31,8 @@ spec:
     server: '*'
   - namespace: template-renderer
     server: '*'
+  - namespace: cluster-config
+    server: '*'
   clusterResourceWhitelist:
   - group: '*'
     kind: Namespace
