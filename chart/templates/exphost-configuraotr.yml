@@ -10,7 +10,7 @@ spec:
   project: exphost
   source:
     repoURL: 'https://gitlab.home.exphost.pl/api/v4/projects/6/packages/helm/stable'
-    targetRevision: v1.2.1
+    targetRevision: v1.2.2
     chart: exphost-configurator
     helm:
       values: |
