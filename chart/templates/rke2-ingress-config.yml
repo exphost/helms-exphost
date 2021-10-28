@@ -13,3 +13,5 @@ spec:
       service:
         enabled: true
         type: LoadBalancer
+        annotations:
+          metallb.universe.tf/allow-shared-ip: ingress-ip
