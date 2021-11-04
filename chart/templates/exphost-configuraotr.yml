@@ -10,7 +10,7 @@ spec:
   project: exphost
   source:
     repoURL: 'https://gitlab.exphost.pl/charts'
-    targetRevision: v1.3.0
+    targetRevision: v1.3.1
     chart: exphost-configurator
     helm:
       values: |
