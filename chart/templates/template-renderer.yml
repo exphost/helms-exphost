@@ -10,7 +10,7 @@ spec:
   project: exphost
   source:
     repoURL: 'https://gitlab.exphost.pl/charts'
-    targetRevision: v1.1.1
+    targetRevision: v1.1.2
     chart: template-renderer
   destination:
     server: 'https://kubernetes.default.svc'
