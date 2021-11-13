@@ -10,8 +10,11 @@ spec:
   project: exphost
   source:
     repoURL: 'https://gitlab.exphost.pl/charts'
-    targetRevision: v1.2.0
+    targetRevision: {{ .Values.templateRenderer.version }}
     chart: template-renderer
+    helm:
+      values: |
+        {{- tpl (toYaml .Values.templateRenderer) . | nindent 8 }}
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: template-renderer
