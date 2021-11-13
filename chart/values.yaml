@@ -20,3 +20,8 @@ templateRenderer:
   version: v1.2.0
   image:
     tag:
+
+exphostConfigurator:
+  version: v1.3.1
+  image:
+    tag:
