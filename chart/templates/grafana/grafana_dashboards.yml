@@ -1,8 +1,15 @@
+{{ $currentScope := .}}
+{{ range $path, $_ := .Files.Glob "files/grafana/dashboards/*" }}
+
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: grafana-dashboards
+  name: grafana-dashboards-{{ $path | base | replace "_" "-" | lower | replace ".json" "" }}
   namespace: grafana
 data:
-{{ (.Files.Glob "files/grafana/dashboards/*").AsConfig | indent 2 }}
+  {{ $path |base | replace "_" "-" | lower }}: |
+    {{- with $currentScope }}
+{{ (.Files.Get $path) | indent 4 }}
+    {{- end }}
+{{- end }}

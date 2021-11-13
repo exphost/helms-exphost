@@ -29,8 +29,8 @@ spec:
           secretName: grafana-datasources
         dashboardsConfigMaps:
           {{- range $path, $_ := .Files.Glob "files/grafana/dashboards/*" }}
-            - configMapName: grafana-dashboards
-              fileName: {{ $path | base}}
+            - configMapName: grafana-dashboards-{{ $path | base | replace "_" "-" | lower | replace ".json" "" }}
+              fileName: {{ $path | base | replace "_" "-" | lower}}
           {{- end }}
         #  - configMapName: grafana-dashboards-nodes
         #    fileName: nodes.json
