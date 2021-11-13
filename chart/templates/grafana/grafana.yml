@@ -45,7 +45,7 @@ spec:
         #  configMapName: ldap-config
         #  allowSignUp: true
         persistence:
-          enabled: false
+          enabled: true
 
 
   destination:
