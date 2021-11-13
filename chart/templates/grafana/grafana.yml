@@ -46,6 +46,9 @@ spec:
         #  allowSignUp: true
         persistence:
           enabled: true
+        config:
+          useGrafanaIniFile: true
+          grafanaIniConfigMap: grafana-config
 
 
   destination:
