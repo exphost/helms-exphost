@@ -25,6 +25,7 @@ spec:
             cert-manager.io/cluster-issuer: acme-issuer
         defaultSettings:
           defaultDataLocality: "best-effort"
+          backupTargetCredentialSecret: longhorn-backup-credentials
 
   destination:
     server: 'https://kubernetes.default.svc'
