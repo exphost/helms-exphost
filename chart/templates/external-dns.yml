@@ -16,6 +16,7 @@ spec:
       values: |
         sources:
           - ingress
+          - service
         provider: cloudflare
         cloudflare:
           secretName: cloudflare-token
