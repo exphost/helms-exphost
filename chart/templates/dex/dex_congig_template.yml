@@ -7,20 +7,20 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
-  template: |
-    connectors:
-    {{ "{{" }} connectors {{ "}}" }}
-    storage:
-      type: sqlite3
-      #type: kubernetes
-      config:
-        file: /var/dex/dex.db
-        #inCluster: true
-    issuer: https://auth.{{ .Values.domain}}/dex
-    staticClients:
-    {{ "{{" }} clients {{ "}}" }}
+  templates:
+    config.yaml: |
+      connectors:
+      {{ "{{" }} connectors {{ "}}" }}
+      storage:
+        type: sqlite3
+        #type: kubernetes
+        config:
+          file: /var/dex/dex.db
+          #inCluster: true
+      issuer: https://auth.{{ .Values.domain}}/dex
+      staticClients:
+      {{ "{{" }} clients {{ "}}" }}
   destination_name: dex-config
-  destination_key: config.yaml
   destination_type: Secret
   values:
     - name: connectors
