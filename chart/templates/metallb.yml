@@ -17,6 +17,10 @@ spec:
         configInline:
           address-pools:
             {{ toYaml .Values.metallb.pools | nindent 12}}
+        controller:
+          priorityClassName: high-priority
+        speaker:
+          priorityClassName: high-priority
 
   destination:
     server: 'https://kubernetes.default.svc'

@@ -30,6 +30,7 @@ spec:
               secretName: dex-acme.tls
           annotations:
             cert-manager.io/cluster-issuer: acme-issuer
+        priorityClassName: high-priority
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: dex

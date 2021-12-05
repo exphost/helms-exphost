@@ -24,6 +24,7 @@ spec:
             tls: true
             annotations:
               cert-manager.io/cluster-issuer: acme-issuer
+          priorityClassName: high-priority
         node-exporter:
           tolerations:
             - key: "node-role.kubernetes.io/master"
@@ -52,6 +53,12 @@ spec:
             tls: true
             annotations:
               cert-manager.io/cluster-issuer: acme-issuer
+          priorityClassName: high-priority
+        operator:
+          priorityClassName: high-priority
+        node-exporter:
+          priorityClassName: high-priority
+
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: prometheus-system

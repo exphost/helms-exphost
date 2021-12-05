@@ -26,6 +26,7 @@ spec:
         defaultSettings:
           defaultDataLocality: "best-effort"
           backupTargetCredentialSecret: longhorn-backup-credentials
+          priorityClass: high-priority
 
   destination:
     server: 'https://kubernetes.default.svc'

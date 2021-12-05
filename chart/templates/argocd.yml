@@ -19,6 +19,7 @@ spec:
             enabled: true
             serviceMonitor:
               enabled: true
+          priorityClassName: high-priority
         server:
           extraArgs:
             - --insecure
@@ -68,12 +69,16 @@ spec:
               p, role:tenant-services, projects, get, services, allow
               g, tenant-services, role:tenant-services
 
+          priorityClassName: high-priority
         repoServer:
           metrics:
             enabled: true
             serviceMonitor:
               enabled: true
 
+          priorityClassName: high-priority
+        redis:
+          priorityClassName: high-priority
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
