@@ -53,6 +53,11 @@ spec:
             tls: true
             annotations:
               cert-manager.io/cluster-issuer: acme-issuer
+          configNamespaceSelector: {}
+          configSelector:
+            matchLabels:
+              alertmanagerConfig: prometheus-kube-prometheus-alertmanager
+          externalConfig: true
           priorityClassName: high-priority
         operator:
           priorityClassName: high-priority
