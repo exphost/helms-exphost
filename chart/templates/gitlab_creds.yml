@@ -1,0 +1,24 @@
+apiVersion: exphost.pl/v1
+kind: Template
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  finalizers:
+  - kopf.zalando.org/KopfFinalizerMarker
+  name: gitlab-creds
+  namespace: argocd
+spec:
+  templates:
+    sshPrivateKey: |
+      {{ "{{" }} privatekey {{ "}}" }}
+    url: git@gitlab.exphost.pl
+    type: git
+  destination_labels:
+    argocd.argoproj.io/secret-type: repo-creds
+  destination_name: gitlab-creds
+  destination_type: Secret
+  values:
+    - name: privatekey
+      source_name: argo-ssh-key
+      source_type: Secret
+      source_key: ssh-privatekey

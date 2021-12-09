@@ -1,4 +1,4 @@
-domain: dev.exphot.pl
+domain: dev.example.com
 persistent:
   nfs:
     size: 15Gi
@@ -25,3 +25,34 @@ exphostConfigurator:
   version: v1.4.0
   image:
     tag:
+
+config:
+  k8sAdminGroup: oidc:k8s-admins
+  dex:
+    ldap:
+      host: openldap.tenant-exphost-services.svc.cluster.local:389
+      password:
+        secretName: password-password-dex-from-tenant-exphost-services
+        key: password
+    staticClients:
+      - id: kubernetes
+        redirectURIs:
+        - 'https://auth.{{ .Values.domain }}/callback'
+        name: 'Kubernetes'
+        secret: GiQBxaKyVNsNkWshSzuNN8Xa6qnbZLYt
+      - id: argo
+        redirectURIs:
+        - 'https://argocd.{{ .Values.domain }}/auth/callback'
+        name: 'ArgoCD'
+        secret: nY4pHGFH0dXKARUWwsxh1Q==
+      - id: gitlab
+        redirectURIs:
+        - 'https://gitlab.{{ .Values.domain }}/users/auth/openid_connect/callback'
+        - 'https://gitlab.{{ .Values.domain }}/users/auth/exphost/callback'
+        name: 'GitLab'
+        secret: 7t7qSU17QwzP80s5NYqV4/JTKl8XYyQ+iyrMpslteXo=
+      - id: grafana
+        redirectURIs:
+        - 'https://grafana.{{ .Values.domain }}/login/generic_oauth'
+        name: 'Grafana'
+        secret: yipcAxlvSLPFgpU+FN+SynW5fAbSQqeG2zTJ/4ioTKU=
