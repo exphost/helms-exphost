@@ -56,3 +56,12 @@ config:
         - 'https://grafana.{{ .Values.domain }}/login/generic_oauth'
         name: 'Grafana'
         secret: yipcAxlvSLPFgpU+FN+SynW5fAbSQqeG2zTJ/4ioTKU=
+  alertmanager:
+    globalMail: ~
+#      to: mail@example.com
+#      from: mail2@example.com
+#      smarthost: ~
+#      authUsername: ~
+#      authPassword:
+#        secretName: ~
+#        keyName: ~

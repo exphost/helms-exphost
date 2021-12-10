@@ -1,0 +1,46 @@
+apiVersion: exphost.pl/v1
+kind: Template
+metadata:
+  name: alertmanager-config
+  namespace: prometheus-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  templates:
+    alertmanager.yaml: |
+      route:
+        group_by:
+          - job
+        group_interval: 1m
+        group_wait: 10s
+{{- if .Values.config.alertmanager.globalMail }}
+        receiver: "mail"
+{{- else }}
+        receiver: "null"
+{{- end }}
+        repeat_interval: 1m
+      receivers:
+        - name: "null"
+{{- if .Values.config.alertmanager.globalMail }}
+        - name: mail
+          email_configs:
+            - to: {{ .Values.config.alertmanager.globalMail.to }}
+              from: {{ .Values.config.alertmanager.globalMail.from }}
+              smarthost: {{ .Values.config.alertmanager.globalMail.smarthost }}
+              auth_username: {{ .Values.config.alertmanager.globalMail.authUsername }}
+              auth_identity: {{ .Values.config.alertmanager.globalMail.authUsername }}
+              auth_password: {{ "{{" }} mailpass {{ "}}" }}
+              send_resolved: true
+{{- end }}
+  destination_name: alertmanager-prometheus-kube-prometheus-alertmanager
+  destination_type: Secret
+{{- if .Values.config.alertmanager.globalMail }}
+  values:
+    - name: mailpass
+      source_name: {{ .Values.config.alertmanager.globalMail.authPassword.secretName }}
+      source_key: {{ .Values.config.alertmanager.globalMail.authPassword.keyName }}
+      source_type: Secret
+{{ else }}
+  values: []
+{{- end }}
