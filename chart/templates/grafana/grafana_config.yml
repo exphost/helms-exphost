@@ -16,10 +16,10 @@ data:
     client_secret = yipcAxlvSLPFgpU+FN+SynW5fAbSQqeG2zTJ/4ioTKU=
     scopes = openid profile email groups
     empty_scopes = false
-    auth_url = https://auth.dev.exphost.pl/dex/auth
-    token_url = https://auth.dev.exphost.pl/dex/token
-    api_url = https://auth.dev.exphost.pl/dex/userinfo
-    redirect_url = https://grafana.dev.exphost.pl/login/generic_oauth
+    auth_url = https://auth.{{ .Values.domain }}/dex/auth
+    token_url = https://auth.{{ .Values.domain }}/dex/token
+    api_url = https://auth.{{ .Values.domain }}/dex/userinfo
+    redirect_url = https://grafana.{{ .Values.domain }}/login/generic_oauth
     #allowed_domains = mycompany.com mycompany.org
     allow_sign_up = true
     tls_skip_verify_insecure = false
