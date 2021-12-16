@@ -10,7 +10,7 @@ spec:
   project: exphost
   source:
     repoURL: 'https://charts.dexidp.io'
-    targetRevision: 0.5.0
+    targetRevision: 0.6.3
     chart: dex
     helm:
       values: |
