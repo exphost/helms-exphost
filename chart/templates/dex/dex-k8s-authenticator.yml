@@ -9,7 +9,8 @@ metadata:
 spec:
   project: exphost
   source:
-    repoURL: 'https://mintel.github.io/helm-charts'
+    #repoURL: 'https://mintel.github.io/helm-charts'
+    repoURL: 'https://gitlab.exphost.pl/charts'
     targetRevision: v1.2.0
     chart: dex-k8s-authenticator
     helm:
