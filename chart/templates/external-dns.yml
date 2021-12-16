@@ -11,10 +11,11 @@ spec:
   source:
     repoURL: 'https://charts.bitnami.com/bitnami'
     chart: external-dns
-    targetRevision: 5.4.6
+    targetRevision: 6.0.2
     helm:
       values: |
         sources:
+          - crd
           - ingress
           - service
         provider: cloudflare
@@ -26,6 +27,9 @@ spec:
           serviceMonitor:
             enabled: true
         logLevel: debug
+        crd:
+          create: true
+        txtSuffix: edns
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: external-dns
