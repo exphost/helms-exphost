@@ -7,25 +7,13 @@ stages:
   - upload
   - deploy
 
-nodes:
+deploy-to-dev:
   stage: deploy
-  image: alpine
-  before_script:
-    - apk add --no-cache ca-certificates git curl yq openssh-client-default
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$GITLAB_SSH_KEY")
-    - git config --global user.name "${GITLAB_USER_NAME}"
-    - git config --global user.email "${GITLAB_USER_EMAIL}"
-    - mkdir -p ~/.ssh
-    - ssh-keyscan -t rsa gitlab.exphost.pl >> ~/.ssh/known_hosts
-  script:
-    - export VERSION=$(git describe --tags)
-    - git clone git@gitlab.exphost.pl:exphost/exphost-config-home-lab.git config
-    - cd config
-    - ls
-    - yq e -i ".spec.source.targetRevision=\"$VERSION\"" exphost-core.yml
-    - git add exphost-core.yml
-    - git commit -m "gitlab-ci update"
-    - git push
+  extends: .deploy-to-git-mainapp
   environment:
     name: dev
+  variables:
+    repo: git@gitlab.exphost.pl:exphost/exphost-config-home-lab.git
+    yamlfile: exphost-core.yml
+    waitapp: exphost
+    refreshapp: cluster-config
