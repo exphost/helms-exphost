@@ -4,6 +4,8 @@ kind: Template
 metadata:
   name: dex-connectors
   namespace: dex
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   templates:
     connectors: |

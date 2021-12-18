@@ -6,6 +6,8 @@ metadata:
   labels:
     prometheus: example
     role: alert-rules
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   groups:
   - name: ./up.rules
