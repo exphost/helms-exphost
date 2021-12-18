@@ -5,10 +5,11 @@ include:
 stages:
   - checks
   - upload
-  - deploy
+  - deploy-to-dev
+  - deploy-to-test
 
 deploy-to-dev:
-  stage: deploy
+  stage: deploy-to-dev
   extends: .deploy-to-git-mainapp
   environment:
     name: dev
@@ -17,3 +18,16 @@ deploy-to-dev:
     yamlfile: exphost-core.yml
     waitapp: exphost
     refreshapp: cluster-config
+
+deploy-to-test:
+  stage: deploy-to-test
+  extends: .deploy-to-git-mainapp
+  environment:
+    name: test
+  variables:
+    repo: git@gitlab.exphost.pl:exphost/exphost-config-test-home.git
+    yamlfile: exphost-core.yml
+    waitapp: exphost
+    refreshapp: cluster-config
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]/' #accept v1.2.3 and v1.2.3-rc4
