@@ -56,6 +56,11 @@ config:
         - 'https://grafana.{{ .Values.domain }}/login/generic_oauth'
         name: 'Grafana'
         secret: yipcAxlvSLPFgpU+FN+SynW5fAbSQqeG2zTJ/4ioTKU=
+      - id: longhorn-oauth2
+        redirectURIs:
+        - 'https://longhorn.{{ .Values.domain }}/oauth2/callback'
+        name: 'Longhorn oauth2'
+        secret: c4Pw7HREAvBewTFZ9qiTNpNDHEQGv8KL
   alertmanager:
     globalMail: ~
 #      to: mail@example.com

@@ -23,6 +23,8 @@ spec:
           tlsSecret: longhorn-acme.tls
           annotations:
             cert-manager.io/cluster-issuer: acme-issuer
+            nginx.ingress.kubernetes.io/auth-url: "https://longhorn.{{ .Values.domain }}/oauth2/auth"
+            nginx.ingress.kubernetes.io/auth-signin: "https://longhorn.{{ .Values.domain }}/oauth2/start?rd=$escaped_request_uri"
         defaultSettings:
           defaultDataLocality: "best-effort"
           backupTargetCredentialSecret: longhorn-backup-credentials

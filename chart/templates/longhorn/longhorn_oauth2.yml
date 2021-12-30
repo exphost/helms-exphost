@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oauth2-longhorn
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    - kopf.zalando.org/KopfFinalizerMarker
+spec:
+  project: exphost
+  source:
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    chart: oauth2-proxy
+    targetRevision: 1.2.0
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          hostname: "longhorn.{{ .Values.domain}}"
+          path: /oauth2
+          pathType: Prefix
+          tls: true
+          annotations:
+            cert-manager.io/cluster-issuer: acme-issuer
+        configuration:
+          # TODO: #145
+          clientID: longhorn-oauth2
+          clientSecret: c4Pw7HREAvBewTFZ9qiTNpNDHEQGv8KL
+          cookieSecret: ZG5VVnVxUHJqM2g2dEtpUmt0NmlvSzdwL1BEZU1KSHg=
+          content: |
+            provider = "oidc"
+            oidc_issuer_url = "https://auth.{{ .Values.domain }}/dex"
+            allowed_groups = ["k8s-admins"]
+            email_domains = [ "*" ]
+            upstreams = [ "file:///dev/null" ]
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
