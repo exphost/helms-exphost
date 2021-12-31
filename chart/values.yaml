@@ -17,7 +17,7 @@ passwordGenerator:
   image:
     tag:
 templateRenderer:
-  version: v2.1.0
+  version: v2.1.1
   image:
     tag:
 
