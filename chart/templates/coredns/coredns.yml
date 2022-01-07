@@ -1,0 +1,66 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coredns
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    - kopf.zalando.org/KopfFinalizerMarker
+spec:
+  project: exphost
+  source:
+    repoURL: 'https://coredns.github.io/helm'
+    chart: coredns
+    targetRevision: 1.16.5
+    helm:
+      values: |
+        #serviceType: LoadBalancer
+        #service:
+        #  annotations:
+        #    metallb.universe.tf/allow-shared-ip: ingress-ip
+        #    kubernetes.io/allow-mixed-protocol: "true"
+        prometheus:
+          service:
+            enabled: true
+          monitor:
+            enabled: true
+        isClusterService: false
+        servers:
+          - zones:
+            - zone: .
+            port: 53
+            plugins:
+            - name: errors
+            - name: health
+              configBlock: |-
+                lameduck 5s
+            - name: ready
+            - name: etcd
+              parameters: dev.exphost.pl
+              configBlock: |-
+                stubzones
+                path /skydns
+                endpoint http://coredns-etcd.external-dns.svc.cluster.local:2379
+                credentials guest guest
+            - name: kubernetes
+              parameters: cluster.local in-addr.arpa ip6.arpa
+              configBlock: |-
+                pods insecure
+                fallthrough in-addr.arpa ip6.arpa
+                ttl 30
+            - name: prometheus
+              parameters: 0.0.0.0:9153
+            - name: cache
+              parameters: 30
+            - name: loop
+            - name: reload
+            - name: loadbalance
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: external-dns
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

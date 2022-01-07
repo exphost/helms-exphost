@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-etcd-users-guest
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  namespace: external-dns
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: etcdctl
+        image: docker.io/bitnami/etcd:3.5.1-debian-10-r56
+        command:
+          - bash
+          - -c
+          - |
+            ETCD="etcdctl --user root --password $ETCD_ROOT_PASSWORD --endpoints http://coredns-etcd.external-dns.svc.cluster.local:2379"
+            $ETCD user list|grep "^guest$" || $ETCD user add guest --new-user-password=guest
+        env:
+          - name: ETCD_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: password-password-etcd-root-from-external-dns
+                key: password
