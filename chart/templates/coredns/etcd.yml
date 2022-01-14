@@ -23,6 +23,13 @@ spec:
           rbac:
             existingSecret: password-password-etcd-root-from-external-dns
             existingSecretPasswordKey: password
+          client:
+            secureTransport: true
+            existingSecret: coredns-etcd-client-cert
+            enableAuthentication: true
+            certFilename: tls.crt
+            certKeyFilename: tls.key
+            caFilename: ca.crt
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: external-dns

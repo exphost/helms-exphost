@@ -1,0 +1,49 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: coredns-etcd-ca
+  namespace: external-dns
+spec:
+  isCA: true
+  commonName: coredns-etcd-ca
+  secretName: coredns-etcd-ca
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: coredns-etcd
+  namespace: external-dns
+spec:
+  ca:
+    secretName: coredns-etcd-ca
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: coredns-etcd-client-cert
+  namespace: external-dns
+spec:
+  commonName: coredns-etcd-client-cert
+  secretName: coredns-etcd-client-cert
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  dnsNames:
+    - coredns-etcd.external-dns    
+    - coredns-etcd.external-dns.svc.cluster.local
+    - coredns-etcd-0.coredns-etcd-headless.external-dns.svc.cluster.local
+  ipAddresses:
+    - 127.0.0.1
+  issuerRef:
+    name: coredns-etcd
+    kind: Issuer
+    group: cert-manager.io
