@@ -19,6 +19,20 @@ spec:
           podMonitor:
             enabled: true
             namespace: external-dns
+            scheme: https
+            tlsConfig:
+              ca:
+                secret:
+                  name: coredns-etcd-client-guest
+                  key: ca.crt
+              cert:
+                secret:
+                  name: coredns-etcd-client-guest
+                  key: tls.crt
+              keySecret:
+                name: coredns-etcd-client-guest
+                key: tls.key
+              serverName: coredns-etcd.external-dns
         auth:
           rbac:
             existingSecret: password-password-etcd-root-from-external-dns

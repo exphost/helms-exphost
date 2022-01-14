@@ -16,7 +16,7 @@ spec:
           - bash
           - -c
           - |
-            ETCD="etcdctl --user root --password $ETCD_ROOT_PASSWORD --endpoints http://coredns-etcd.external-dns.svc.cluster.local:2379"
+            ETCD="etcdctl --cert=$ETCD_CERT_FILE --key=$ETCD_KEY_FILE --cacert=$ETCD_TRUSTED_CA_FILE --endpoints https://coredns-etcd.external-dns.svc.cluster.local:2379"
             role=$($ETCD user get guest|grep "^Roles: guest$")
             if [ -z "$role" ]; then
               echo "granting role guest to user guest"
@@ -28,3 +28,19 @@ spec:
               secretKeyRef:
                 name: password-password-etcd-root-from-external-dns
                 key: password
+          - name: ETCD_CLIENT_CERT_AUTH
+            value: "true"
+          - name: ETCD_TRUSTED_CA_FILE
+            value: /opt/bitnami/etcd/certs/client/ca.crt
+          - name: ETCD_CERT_FILE
+            value: /opt/bitnami/etcd/certs/client/tls.crt
+          - name: ETCD_KEY_FILE
+            value: /opt/bitnami/etcd/certs/client/tls.key
+        volumeMounts:
+          - mountPath: /opt/bitnami/etcd/certs/client/
+            name: etcd-client-certs
+            readOnly: true
+      volumes:
+        - name: etcd-client-certs
+          secret:
+            secretName: coredns-etcd-client-root

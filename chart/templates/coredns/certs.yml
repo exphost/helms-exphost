@@ -47,3 +47,35 @@ spec:
     name: coredns-etcd
     kind: Issuer
     group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: coredns-etcd-client-guest
+  namespace: external-dns
+spec:
+  commonName: guest
+  secretName: coredns-etcd-client-guest
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: coredns-etcd
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: coredns-etcd-client-root
+  namespace: external-dns
+spec:
+  commonName: root
+  secretName: coredns-etcd-client-root
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: coredns-etcd
+    kind: Issuer
+    group: cert-manager.io
