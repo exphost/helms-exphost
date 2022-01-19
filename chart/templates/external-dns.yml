@@ -18,10 +18,14 @@ spec:
           - crd
           - ingress
           - service
-        provider: cloudflare
-        cloudflare:
-          secretName: cloudflare-token
-          proxied: {{ .Values.cloudflare.proxied }}
+        provider: coredns
+        coredns:
+          etcdEndpoints: "https://coredns-etcd.external-dns.svc.cluster.local:2379"
+          etcdTLS:
+            enabled: true
+            secretName: coredns-etcd-client-root
+            certFilename: tls.crt
+            keyFilename: tls.key
         metrics:
           enabled: true
           serviceMonitor:
