@@ -40,8 +40,8 @@ spec:
               configBlock: |-
                 stubzones
                 path /skydns
-                endpoint http://coredns-etcd.external-dns.svc.cluster.local:2379
-                credentials guest guest
+                endpoint https://coredns-etcd.external-dns.svc.cluster.local:2379
+                tls /etc/coredns/tls/etcd/tls.crt /etc/coredns/tls/etcd/tls.key /etc/coredns/tls/etcd/ca.crt
             - name: kubernetes
               parameters: cluster.local in-addr.arpa ip6.arpa
               configBlock: |-
@@ -55,6 +55,9 @@ spec:
             - name: loop
             - name: reload
             - name: loadbalance
+        extraSecrets:
+          - name: coredns-etcd-client-guest
+            mountPath: /etc/coredns/tls/etcd
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: external-dns
