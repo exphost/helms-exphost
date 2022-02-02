@@ -38,7 +38,6 @@ spec:
             - name: etcd
               parameters: dev.exphost.pl
               configBlock: |-
-                stubzones
                 path /skydns
                 endpoint https://coredns-etcd.external-dns.svc.cluster.local:2379
                 tls /etc/coredns/tls/etcd/tls.crt /etc/coredns/tls/etcd/tls.key /etc/coredns/tls/etcd/ca.crt
