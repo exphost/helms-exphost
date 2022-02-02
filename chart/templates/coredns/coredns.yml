@@ -41,6 +41,8 @@ spec:
             - name: etcd
               parameters: dev.exphost.pl
               configBlock: |-
+                stubzones
+                fallthrough
                 path /skydns
                 endpoint https://coredns-etcd.external-dns.svc.cluster.local:2379
                 tls /etc/coredns/tls/etcd/tls.crt /etc/coredns/tls/etcd/tls.key /etc/coredns/tls/etcd/ca.crt
@@ -60,15 +62,6 @@ spec:
         extraSecrets:
           - name: coredns-etcd-client-guest
             mountPath: /etc/coredns/tls/etcd
-        zoneFiles: []
-          - filename: example.db
-            domain: example.com
-            contents: |
-              example.com.   IN SOA sns.dns.icann.com. noc.dns.icann.com. 2015082541 7200 3600 1209600 3600
-              example.com.   IN NS  b.iana-servers.net.
-              example.com.   IN NS  a.iana-servers.net.
-              example.com.   IN A   192.168.99.102
-              *.example.com. IN A   192.168.99.102
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: external-dns
