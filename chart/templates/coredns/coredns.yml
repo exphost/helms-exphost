@@ -19,6 +19,7 @@ spec:
         #  annotations:
         #    metallb.universe.tf/allow-shared-ip: ingress-ip
         #    kubernetes.io/allow-mixed-protocol: "true"
+        replicaCount: 3
         prometheus:
           service:
             enabled: true
