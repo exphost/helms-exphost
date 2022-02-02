@@ -35,6 +35,8 @@ spec:
               configBlock: |-
                 lameduck 5s
             - name: ready
+            - name: log
+              parameters: .
             - name: etcd
               parameters: dev.exphost.pl
               configBlock: |-
