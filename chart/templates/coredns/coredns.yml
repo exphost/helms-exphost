@@ -44,7 +44,7 @@ spec:
                 path /skydns
                 endpoint https://coredns-etcd.external-dns.svc.cluster.local:2379
                 tls /etc/coredns/tls/etcd/tls.crt /etc/coredns/tls/etcd/tls.key /etc/coredns/tls/etcd/ca.crt
-            - name: recods
+            - name: records
               parameters: dev.exphost.pl
               configBlock: |-
                 @   60  IN SOA ns1.dev.exphost.pl. root.exphost.pl. 2020091001 7200 3600 1209600 3600
