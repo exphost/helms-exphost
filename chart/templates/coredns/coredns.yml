@@ -52,6 +52,10 @@ spec:
                 pods insecure
                 fallthrough in-addr.arpa ip6.arpa
                 ttl 30
+            - name: transfer
+              parameters: dev.exphost.pl
+              configBlock: |-
+                to 69.65.50.192
             - name: prometheus
               parameters: 0.0.0.0:9153
             - name: cache
