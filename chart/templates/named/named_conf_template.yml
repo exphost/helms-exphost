@@ -1,0 +1,76 @@
+apiVersion: exphost.pl/v1
+kind: Template
+metadata:
+  name: named-conf
+  namespace: named
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  templates:
+    named.conf: |
+      key "cert-manager-key" {
+              algorithm hmac-sha256;
+              secret "{{ "{{" }} cert_manager_key {{ "}}" }}";
+      };
+      
+      key "external-dns-key" {
+              algorithm hmac-sha256;
+              secret "{{ "{{" }} external_dns_key {{ "}}" }}";
+      };
+
+      key "local-key" {
+              algorithm hmac-sha256;
+              secret "{{ "{{" }} local_key {{ "}}" }}";
+      };
+      
+      controls {
+              inet 127.0.0.1 port 953
+                      allow { 127.0.0.1; } keys { "local-key";};
+      };
+      
+      options {
+              directory "/var/cache/bind";
+              listen-on { any; };
+              listen-on-v6 { any; };
+              recursion no; 
+              allow-recursion {
+                      none;
+              };
+              allow-transfer {
+                      key "external-dns-key";
+                      key "cert-manager-key";
+                      key "local-key";
+              };
+              allow-update {
+                      key "external-dns-key";
+                      key "cert-manager-key";
+                      key "local-key";
+              };
+      };
+      
+      zone "{{ .Values.domain }}." {
+              type primary;
+              file "/var/lib/bind/db.{{ .Values.domain }}";
+      };
+    rndc.key: |
+      key "rndc-key" {
+        algorithm hmac-sha256;
+        secret "{{ "{{" }} local_key {{ "}}" }}";
+      };
+
+  destination_name: named-conf
+  destination_type: Secret
+  values:
+    - name: cert_manager_key
+      source_name: password-cert-manager-key-from-named
+      source_type: Secret
+      source_key: base64
+    - name: external_dns_key
+      source_name: password-external-dns-key-from-named
+      source_type: Secret
+      source_key: base64
+    - name: local_key
+      source_name: password-local-key-from-named
+      source_type: Secret
+      source_key: base64

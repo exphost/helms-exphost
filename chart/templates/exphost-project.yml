@@ -33,6 +33,8 @@ spec:
     server: '*'
   - namespace: cluster-config
     server: '*'
+  - namespace: named
+    server: '*'
   clusterResourceWhitelist:
   - group: '*'
     kind: Namespace

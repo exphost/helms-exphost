@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: named
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    - kopf.zalando.org/KopfFinalizerMarker
+spec:
+  project: exphost
+  source:
+    repoURL: 'https://gitlab.exphost.pl/charts'
+    targetRevision: {{ .Values.named.version }}
+    chart: named
+    helm:
+      values: |
+        domain: {{ .Values.domain }}
+        {{- tpl (toYaml .Values.named) . | nindent 8 }}
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: named
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

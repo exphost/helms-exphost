@@ -13,7 +13,7 @@ cloudflare:
   proxied: true
 
 passwordGenerator:
-  version: v1.2.0
+  version: v1.3.0
   image:
     tag:
 templateRenderer:
@@ -25,6 +25,9 @@ exphostConfigurator:
   version: v1.5.0
   image:
     tag:
+
+named:
+  version: v0.0.0
 
 config:
   k8sAdminGroup: oidc:k8s-admins

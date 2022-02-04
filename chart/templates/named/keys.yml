@@ -1,0 +1,33 @@
+apiVersion: exphost.pl/v1
+kind: Password
+metadata:
+  name: cert-manager-key
+  namespace: named
+spec:
+  name: cert-manager-key
+  copy_namespaces:
+    - cert-manager
+  types:
+  - base64
+---
+apiVersion: exphost.pl/v1
+kind: Password
+metadata:
+  name: external-dns-key
+  namespace: named
+spec:
+  name: external-dns-key
+  copy_namespaces:
+    - external-dns
+  types:
+  - base64
+---
+apiVersion: exphost.pl/v1
+kind: Password
+metadata:
+  name: local-key
+  namespace: named
+spec:
+  name: local-key
+  types:
+  - base64
