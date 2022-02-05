@@ -18,10 +18,14 @@ spec:
           - crd
           - ingress
           - service
-        provider: cloudflare
-        cloudflare:
-          secretName: cloudflare-token
-          proxied: {{ .Values.cloudflare.proxied }}
+        provider: rfc2136
+        domainFilters:
+          - {{ .Values.domain }}
+        rfc2136:
+          host: named-mixed.named.svc.cluster.local.
+          zone: "{{ .Values.domain }}"
+          secretName: rfc2136-tsig-secret
+          tsigKeyname: external-dns-key
         metrics:
           enabled: true
           serviceMonitor:
@@ -29,7 +33,7 @@ spec:
         logLevel: debug
         crd:
           create: true
-        txtSuffix: edns
+        txtSuffix: -extdns
         policy: sync
   destination:
     server: 'https://kubernetes.default.svc'

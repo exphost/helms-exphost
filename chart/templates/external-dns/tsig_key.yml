@@ -1,0 +1,18 @@
+apiVersion: exphost.pl/v1
+kind: Template
+metadata:
+  name: rfc2136-tsig-secret
+  namespace: external-dns
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  templates:
+    rfc2136_tsig_secret: '{{ "{{" }} key {{ "}}" }}'
+  destination_name: rfc2136-tsig-secret
+  destination_type: Secret
+  values:
+    - name: key
+      source_name: password-external-dns-key-from-named
+      source_type: Secret
+      source_key: base64
