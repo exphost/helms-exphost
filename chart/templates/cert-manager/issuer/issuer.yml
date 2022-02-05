@@ -14,8 +14,10 @@ spec:
       name: acme-issuer-account-key
     solvers:
     - dns01:
-        cloudflare:
-          email: my-cloudflare-acc@example.com
-          apiTokenSecretRef:
-            name: cloudflare-api-token-secret
-            key: api-token
+        rfc2136:
+          nameserver: named-mixed.named.svc.cluster.local.
+          tsigKeyName: cert-manager-key
+          tsigAlgorithm: HMACSHA256
+          tsigSecretSecretRef:
+            name: password-cert-manager-key-from-named
+            key: base64
