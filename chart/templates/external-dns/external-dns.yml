@@ -38,8 +38,11 @@ spec:
         logLevel: debug
         crd:
           create: true
-        txtSuffix: -extdns
         policy: sync
+        publishHostIP: true
+        txtOwnerId: "k8s_{{ .Values.domain }}"
+        txtPrefix: "_ext-dns."
+        triggerLoopOnEvent: true
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: external-dns
