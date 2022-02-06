@@ -27,7 +27,7 @@ exphostConfigurator:
     tag:
 
 named:
-  version: v0.0.0
+  version: v1.0.0
 
 config:
   k8sAdminGroup: oidc:k8s-admins
