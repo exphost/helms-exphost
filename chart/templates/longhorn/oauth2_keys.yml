@@ -1,0 +1,10 @@
+---
+apiVersion: exphost.pl/v1
+kind: Password
+metadata:
+  name: oauth2-cookie
+  namespace: longhorn-system
+spec:
+  name: oauth2-cookie
+  types:
+  - base64

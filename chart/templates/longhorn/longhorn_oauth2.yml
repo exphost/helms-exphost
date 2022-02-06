@@ -23,10 +23,7 @@ spec:
           annotations:
             cert-manager.io/cluster-issuer: acme-issuer
         configuration:
-          # TODO: #145
-          clientID: longhorn-oauth2
-          clientSecret: c4Pw7HREAvBewTFZ9qiTNpNDHEQGv8KL
-          cookieSecret: ZG5VVnVxUHJqM2g2dEtpUmt0NmlvSzdwL1BEZU1KSHg=
+          existingSecret: oauth2-longhorn-oauth2-proxy
           content: |
             provider = "oidc"
             oidc_issuer_url = "https://auth.{{ .Values.domain }}/dex"
