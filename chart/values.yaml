@@ -64,6 +64,11 @@ config:
         - 'https://longhorn.{{ .Values.domain }}/oauth2/callback'
         name: 'Longhorn oauth2'
         secret: c4Pw7HREAvBewTFZ9qiTNpNDHEQGv8KL
+      - id: alertmanager-oauth2
+        redirectURIs:
+        - 'https://alertmanager.{{ .Values.domain }}/oauth2/callback'
+        name: 'alertmanager oauth2'
+        secret: COhRsMzr1t0RK2juK4yp4gJwA6wNtfAR2eTiqqoR7qk=
   alertmanager:
     globalMail: ~
 #      to: mail@example.com

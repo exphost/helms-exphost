@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oauth2-alertmanager
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    - kopf.zalando.org/KopfFinalizerMarker
+spec:
+  project: exphost
+  source:
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    chart: oauth2-proxy
+    targetRevision: 1.2.0
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          hostname: "alertmanager.{{ .Values.domain}}"
+          path: /oauth2
+          pathType: Prefix
+          tls: true
+          annotations:
+            cert-manager.io/cluster-issuer: acme-issuer
+        configuration:
+          existingSecret: oauth2-alertmanager-oauth2-proxy
+          content: |
+            provider = "oidc"
+            oidc_issuer_url = "https://auth.{{ .Values.domain }}/dex"
+            allowed_groups = ["k8s-admins"]
+            email_domains = [ "*" ]
+            upstreams = [ "file:///dev/null" ]
+        redis:
+          auth:
+            existingSecret: oauth2-alertmanager-redis
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: prometheus-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
