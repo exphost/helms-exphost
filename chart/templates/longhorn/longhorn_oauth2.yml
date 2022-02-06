@@ -30,6 +30,9 @@ spec:
             allowed_groups = ["k8s-admins"]
             email_domains = [ "*" ]
             upstreams = [ "file:///dev/null" ]
+        redis:
+          auth:
+            existingSecret: oauth2-longhorn-redis
 
   destination:
     server: 'https://kubernetes.default.svc'

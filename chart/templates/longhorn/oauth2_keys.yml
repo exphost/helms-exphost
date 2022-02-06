@@ -8,3 +8,11 @@ spec:
   name: oauth2-cookie
   types:
   - base64
+---
+apiVersion: exphost.pl/v1
+kind: Password
+metadata:
+  name: oauth2-redis
+  namespace: longhorn-system
+spec:
+  name: oauth2-redis
