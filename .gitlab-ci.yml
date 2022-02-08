@@ -39,7 +39,7 @@ deploy-to-prod:
   environment:
     name: prod
   variables:
-    repo: git@gitlab.home.exphost.pl:exphost/exphost-config-prod1.git
+    repo: git@gitlab.exphost.pl:exphost/exphost-config-prod1.git
     yamlfile: exphost-core.yml
     waitapp: exphost
     refreshapp: cluster-config
