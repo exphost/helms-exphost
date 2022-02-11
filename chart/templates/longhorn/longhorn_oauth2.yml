@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://charts.bitnami.com/bitnami'
     chart: oauth2-proxy
-    targetRevision: 1.2.0
+    targetRevision: 2.0.2
     helm:
       values: |
         ingress:
