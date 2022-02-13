@@ -53,6 +53,7 @@ spec:
               name: dex
               issuer: "https://auth.{{ .Values.domain }}/dex"
               clientID: argo
+              cliClientID: argocli
               clientSecret: nY4pHGFH0dXKARUWwsxh1Q==
               requestedIDTokenClaims:
                 groups:

@@ -46,9 +46,11 @@ config:
       - id: argo
         redirectURIs:
         - 'https://argocd.{{ .Values.domain }}/auth/callback'
-        - 'http://localhost:8085/auth/callback'
         name: 'ArgoCD'
         secret: nY4pHGFH0dXKARUWwsxh1Q==
+      - id: argocli
+        name: 'ArgoCD'
+        public: true
       - id: gitlab
         redirectURIs:
         - 'https://gitlab.{{ .Values.domain }}/users/auth/openid_connect/callback'
