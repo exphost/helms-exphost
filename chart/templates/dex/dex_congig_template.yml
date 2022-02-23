@@ -9,6 +9,8 @@ metadata:
 spec:
   templates:
     config.yaml: |
+      web:
+        allowedOrigins: ['*']
       connectors:
       {{ "{{" }} connectors {{ "}}" }}
       storage:
