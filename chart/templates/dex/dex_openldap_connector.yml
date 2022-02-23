@@ -9,30 +9,29 @@ metadata:
 spec:
   templates:
     connectors: |
-      connectors:
-        - type: ldap
-          id: ldap
-          name: LDAP
-          config:
-            host: {{ .Values.config.dex.ldap.host }}
-            insecureNoSSL: true
-            bindDN: uid=dex,ou=sa,{{ include "ldap.dc" . }}
-            bindPW: {{ "{{" }} dex_password {{ "}}" }}
-            usernamePrompt: SSO Username
-            userSearch:
-              baseDN: ou=users,{{ include "ldap.dc" . }}
-              filter: "(objectClass=inetOrgPerson)"
-              username: cn
-              idAttr: cn
-              emailAttr: mail
-              nameAttr: cn
-            groupSearch:
-              baseDN: ou=groups,{{ include "ldap.dc" . }}
-              filter: "(objectClass=groupOfNames)"
-              userMatchers:
-                - userAttr: DN
-                  groupAttr: member
-              nameAttr: cn
+      - type: ldap
+        id: ldap
+        name: LDAP
+        config:
+          host: {{ .Values.config.dex.ldap.host }}
+          insecureNoSSL: true
+          bindDN: uid=dex,ou=sa,{{ include "ldap.dc" . }}
+          bindPW: {{ "{{" }} dex_password {{ "}}" }}
+          usernamePrompt: SSO Username
+          userSearch:
+            baseDN: ou=users,{{ include "ldap.dc" . }}
+            filter: "(objectClass=inetOrgPerson)"
+            username: cn
+            idAttr: cn
+            emailAttr: mail
+            nameAttr: cn
+          groupSearch:
+            baseDN: ou=groups,{{ include "ldap.dc" . }}
+            filter: "(objectClass=groupOfNames)"
+            userMatchers:
+              - userAttr: DN
+                groupAttr: member
+            nameAttr: cn
   destination_name: dex-env-configs-connectors
   destination_type: Secret
   values:
