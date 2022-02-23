@@ -30,6 +30,10 @@ spec:
               secretName: dex-acme.tls
           annotations:
             cert-manager.io/cluster-issuer: acme-issuer
+            nginx.ingress.kubernetes.io/enable-cors: "true"
+            nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+            nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+            nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         priorityClassName: high-priority
   destination:
     server: 'https://kubernetes.default.svc'
