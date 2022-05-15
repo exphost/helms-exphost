@@ -9,6 +9,9 @@ stages:
 #  - deploy-to-test
   - deploy-to-prod
 
+upload:
+  extends: .upload
+
 deploy-to-dev:
   stage: deploy-to-dev
   extends: .deploy-to-git-mainapp
