@@ -6,7 +6,7 @@ stages:
   - checks
   - upload
   - deploy-to-dev
-  - deploy-to-test
+#  - deploy-to-test
   - deploy-to-prod
 
 deploy-to-dev:
@@ -20,18 +20,18 @@ deploy-to-dev:
     waitapp: exphost
     refreshapp: cluster-config
 
-deploy-to-test:
-  stage: deploy-to-test
-  extends: .deploy-to-git-mainapp
-  environment:
-    name: test
-  variables:
-    repo: git@gitlab.exphost.pl:exphost/exphost-config-test-home.git
-    yamlfile: exphost-core.yml
-    waitapp: exphost
-    refreshapp: cluster-config
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]/' #accept v1.2.3 and v1.2.3-rc4
+#deploy-to-test:
+#  stage: deploy-to-test
+#  extends: .deploy-to-git-mainapp
+#  environment:
+#    name: test
+#  variables:
+#    repo: git@gitlab.exphost.pl:exphost/exphost-config-test-home.git
+#    yamlfile: exphost-core.yml
+#    waitapp: exphost
+#    refreshapp: cluster-config
+#  rules:
+#    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]/' #accept v1.2.3 and v1.2.3-rc4
 
 deploy-to-prod:
   stage: deploy-to-prod
