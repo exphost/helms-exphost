@@ -27,7 +27,6 @@ spec:
   cron: "0 4 * * *"
   task: "backup"
   groups:
-  - default
   - daily
   retain: 7
   concurrency: 2
@@ -46,7 +45,6 @@ spec:
   task: "backup"
   groups:
   - weekly
-  - default
   retain: 52
   concurrency: 2
   labels:
