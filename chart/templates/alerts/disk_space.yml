@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prometheus-disk-space
+  namespace: prometheus-system
+  labels:
+    prometheus: example
+    role: alert-rules
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  groups:
+  - name: ./disk-space.rules
+    rules:
+    - alert: low disk space in bytes
+      expr: node_filesystem_avail_bytes{fstype!='tmpfs'} < 53687091200
+    - alert: low disk space in percentage
+      expr: node_filesystem_avail_bytes/node_filesystem_size_bytes * 100 < 20
+    - alert: low disk space on longhorn volume
+      expr: (longhorn_volume_actual_size_bytes / longhorn_volume_capacity_bytes) * 100 > 70
