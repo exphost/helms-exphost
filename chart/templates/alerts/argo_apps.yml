@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prometheus-argo-apps
+  namespace: prometheus-system
+  labels:
+    prometheus: example
+    role: alert-rules
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  groups:
+  - name: ./argo-apps.rules
+    rules:
+    - alert: unhealthy apps
+      expr: argocd_app_info{health_status!="Healthy"}
+    - alert: unsynced apps
+      expr: argocd_app_info{sync_status!="Synced"}
