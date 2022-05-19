@@ -20,6 +20,7 @@ spec:
             existingSecretPasswordKey: password
         persistence:
           size: 2Gi
+          storageClass: longhorn-replica1-delete-daily-weekly-backup
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: dex
