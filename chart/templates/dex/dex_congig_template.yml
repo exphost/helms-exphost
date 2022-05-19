@@ -14,11 +14,13 @@ spec:
       connectors:
       {{ "{{" }} connectors {{ "}}" }}
       storage:
-        type: sqlite3
-        #type: kubernetes
+        type: etcd
         config:
-          file: /var/dex/dex.db
-          #inCluster: true
+          endpoints:
+            - http://etcd:2379
+          username: root
+          password: {{ "{{" }} etcdPassword {{ "}}" }}
+          namespace: dex-tokens/
       issuer: https://auth.{{ .Values.domain}}/dex
       staticClients:
       {{ "{{" }} clients {{ "}}" }}
@@ -33,3 +35,7 @@ spec:
       source_name: dex-env-configs-staticclients
       source_type: Secret
       source_key: staticclients
+    - name: etcdPassword
+      source_name: password-etcd-password-from-dex
+      source_type: Secret
+      source_key: password
