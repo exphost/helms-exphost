@@ -10,7 +10,7 @@ spec:
   project: exphost
   source:
     repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 2.6.2
+    targetRevision: 3.0.4
     chart: metallb
     helm:
       values: |

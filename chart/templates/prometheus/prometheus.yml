@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://charts.bitnami.com/bitnami'
     chart: kube-prometheus
-    targetRevision: 6.1.1
+    targetRevision: 6.13.0
     helm:
       values: |
         prometheus:
