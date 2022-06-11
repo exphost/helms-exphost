@@ -18,6 +18,10 @@ spec:
           rbac:
             existingSecret: password-etcd-password-from-dex
             existingSecretPasswordKey: password
+          token:
+            privateKey:
+              filename: tls.key
+              existingSecret: etcd-crt
         persistence:
           size: 2Gi
           storageClass: longhorn-replica1-delete-daily-weekly-backup
