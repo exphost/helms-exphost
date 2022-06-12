@@ -4,4 +4,4 @@ description: A Helm chart for exphost k8s cluster
 
 type: application
 
-version: __VERSION__
+version: 0.0.0-placeholder
