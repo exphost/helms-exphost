@@ -3,8 +3,6 @@ kind: Template
 metadata:
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-  finalizers:
-  - kopf.zalando.org/KopfFinalizerMarker
   name: gitlab-creds
   namespace: argocd
 spec:
