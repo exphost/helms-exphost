@@ -13,11 +13,11 @@ cloudflare:
   proxied: true
 
 passwordGenerator:
-  version: v1.4.0
+  version: v1.4.2
   image:
     tag:
 templateRenderer:
-  version: v2.1.1
+  version: v2.1.3
   image:
     tag:
 
