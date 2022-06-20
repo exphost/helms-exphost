@@ -16,7 +16,7 @@ spec:
           host: {{ .Values.config.dex.ldap.host }}
           insecureNoSSL: true
           bindDN: uid=dex,ou=sa,{{ include "ldap.dc" . }}
-          bindPW: {{ "{{" }} dex_password {{ "}}" }}
+          bindPW: "{{ "{{" }} dex_password {{ "}}" }}"
           usernamePrompt: SSO Username
           userSearch:
             baseDN: ou=users,{{ include "ldap.dc" . }}
