@@ -74,7 +74,7 @@ config:
         secret: COhRsMzr1t0RK2juK4yp4gJwA6wNtfAR2eTiqqoR7qk=
       - id: exphost-controller
         redirectURIs:
-        - 'https://{{ .Values.domain }}/oauth2/callback'
+        - 'https://console.{{ .Values.domain }}/oauth2/callback'
         name: 'exphost-controller'
         secret: Yp4fGf79FutdBDJArQqxhUiVbufVxjzu
   alertmanager:
