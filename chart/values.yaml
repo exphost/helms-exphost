@@ -75,6 +75,10 @@ config:
       - id: exphost-controller
         redirectURIs:
         - 'https://console.{{ .Values.domain }}/oauth2/callback'
+        - 'https://{{ .Values.domain }}/oauth2/callback'
+        - 'https://www.{{ .Values.domain }}/oauth2/callback'
+        - 'https://{{ .Values.domain }}/console/oauth2/callback'
+        - 'https://www.{{ .Values.domain }}/console/oauth2/callback'
         name: 'exphost-controller'
         secret: Yp4fGf79FutdBDJArQqxhUiVbufVxjzu
   alertmanager:
