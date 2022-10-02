@@ -24,6 +24,8 @@ spec:
       issuer: https://auth.{{ .Values.domain}}/dex
       staticClients:
       {{ "{{" }} clients {{ "}}" }}
+      oauth2:
+        skipApprovalScreen: true
   destination_name: dex-config
   destination_type: Secret
   values:
